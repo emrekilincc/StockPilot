@@ -1,0 +1,34 @@
+name: StockPilot checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Backend dependencies and isolated tests
+        run: |
+          python -m venv .venv
+          .venv/bin/python -m pip install -r backend/requirements.lock.txt
+          cd backend
+          ../.venv/bin/python -m pytest
+      - name: Frontend lint and production build
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run lint
+          npm run build
+      - name: Browser integration tests
+        working-directory: frontend
+        run: |
+          npx playwright install --with-deps chromium
+          npm run test:e2e
