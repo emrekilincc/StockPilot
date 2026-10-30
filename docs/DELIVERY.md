@@ -92,6 +92,6 @@ Yeni bilgisayarda tüm kurulum için `stockpilot` içinden `setup.ps1 -Demo`, ar
 
 - Gerçek ilk yönetici hesabı kullanıcı tarafından oluşturulmalı. Asıl veritabanına demo yükleme bu adımdan sonra, isteğe bağlıdır.
 - `setup.ps1` / `start.ps1` sözdizimleri doğrulandı; bütün etkileşimli ilk kurulum script'i kullanıcı parolası girişiyle baştan sona çalıştırılmadı. İçlerindeki pip/npm, migration, build ve Uvicorn/React bağlantısı ayrı adımlarda doğrulandı.
-- İnternete deploy, GitHub push/uzak CI, HTTPS proxy kurulumu yapılmadı. Çalışan bir genel site adresi yoktur.
+- İnternete deploy, uzak CI çalıştırma ve HTTPS proxy kurulumu yapılmadı. GitHub deposu `emrekilincc/StockPilot` adresine pushlandı; çalışan bir genel site adresi yoktur.
 - Safari/Firefox, gerçek telefon donanımı, yük testi ve profesyonel penetrasyon testi yapılmadı. Mobil QA, Chromium viewport üzerinden yapıldı.
 - SQLite tek yazıcılı yerel işletme hedefiyle tasarlandı; çok kiracılı bulut hizmeti veya yüksek eşzamanlı yazma kapasitesi iddiası yoktur.

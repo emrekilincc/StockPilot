@@ -157,7 +157,7 @@ E2E mevcut Chrome/Edge'i kullanır. Bunlar yoksa bir kez `npx playwright install
 
 Test kapsamı: giriş/hatalı parola/çıkış/oturum süresi, kayıt onayı, CSRF/Origin, yönetici/çalışan/kayıt izinleri, ürün/SKU, stok/negatif bakiye, sipariş durumları/tekrarlar/eşzamanlılık, rollback, fiyat snapshot'ları, rapor/CSV, görsel doğrulama, seed idempotency. Tarayıcı kontrolleri login, form, ürün–stok–sipariş akışı, sayfalar, CSV, mobil/masaüstü, tema, modal ve menü klavye davranışını kapsar.
 
-Kesin çalıştırma sonuçları ve sınırlar: [Teslim raporu](docs/DELIVERY.md). GitHub Actions yapılandırması projeye eklenmiştir; uzak CI çalışması veya GitHub push bu görevde yapılmamıştır.
+Kesin çalıştırma sonuçları ve sınırlar: [Teslim raporu](docs/DELIVERY.md). GitHub Actions yapılandırması projeye eklenmiştir; uzak CI çalışması bu görevde ayrıca beklenmemiştir.
 
 ## Güvenlik ve yapılandırma
 
@@ -212,7 +212,7 @@ stockpilot/
 
 ## GitHub'a hazırlama
 
-Bu klasörün içeriği depo kökü olacak şekilde bir repo oluşturun. `.github/workflows/ci.yml` bu yerleşimi varsayar. Üst dizinde zaten bir Git deposu bulunabileceği için otomatik nested repo, commit veya push oluşturulmadı.
+Bu klasörün içeriği `emrekilincc/StockPilot` deposunun köküdür. `.github/workflows/ci.yml` bu yerleşimi varsayar.
 
 Yeni, bağımsız bir kopyada:
 
@@ -222,7 +222,7 @@ git add .
 git status --short
 # .env, .db, uploads ve .venv listede bulunmamalı.
 git commit -m "Build StockPilot inventory and order management"
-# Kendi GitHub deponuzun adresiyle, yalnızca siz istediğinizde:
+# Yeni bir GitHub deposuna bağlayacağınız kopyada:
 git remote add origin https://github.com/KULLANICI/stockpilot.git
 git branch -M main
 git push -u origin main
