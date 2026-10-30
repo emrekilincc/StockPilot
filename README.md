@@ -19,6 +19,10 @@ StockPilot, küçük ve orta ölçekli işletmeler için Türkçe bir stok ve si
 - **Raporlar:** günlük/aylık, ürün/kategori satışları, stok hareketleri, kritik stok, sipariş durumları; tarih filtresi ve güvenli CSV.
 - **Arayüz:** açık/koyu tema, masaüstü ve mobil navigasyon, modal, bildirimler, boş/hata/yüklenme durumları, klavye erişimi ve azaltılmış hareket desteği.
 
+### Demo ve gerçek çalışma modu
+
+Uygulama ilk açıldığında sol menüdeki **Demo verileri** anahtarı açıktır; bu görünüm örnek ürün, stok ve sipariş akışını gösterir. Anahtarı kapattığınızda aynı ekranlar yalnızca gerçek kayıtları kullanır. Yeni kurulumda henüz gerçek kayıt girilmediği için sayılar 0 görünür. Kullanıcı ürün, kategori, tedarikçi, müşteri, stok hareketi ve sipariş bilgilerini uygulama içindeki formlardan elle girer; mevcut sürümde dış tedarikçi veya mağazadan otomatik veri aktarımı yoktur. Demo ve gerçek kayıtlar veritabanında ayrı tutulur ve anahtar değişince ekranlar yeniden yüklenir.
+
 ## Teknolojiler
 
 | Katman | Teknolojiler |

@@ -3,7 +3,7 @@ from datetime import datetime
 from sqlalchemy import Boolean, CheckConstraint, ForeignKey, Index, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from app.db.database import Base, utcnow
+from app.db.database import Base, DemoMixin, utcnow
 
 
 class Timestamp:
@@ -44,7 +44,7 @@ class LoginAttempt(Base):
     created_at: Mapped[datetime] = mapped_column(default=utcnow, index=True)
 
 
-class Category(Timestamp, Base):
+class Category(DemoMixin, Timestamp, Base):
     __tablename__ = "categories"
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(100), unique=True)
@@ -60,15 +60,15 @@ class Contact(Timestamp):
     active: Mapped[bool] = mapped_column(Boolean, default=True, index=True)
 
 
-class Supplier(Contact, Base):
+class Supplier(DemoMixin, Contact, Base):
     __tablename__ = "suppliers"
 
 
-class Customer(Contact, Base):
+class Customer(DemoMixin, Contact, Base):
     __tablename__ = "customers"
 
 
-class Product(Timestamp, Base):
+class Product(DemoMixin, Timestamp, Base):
     __tablename__ = "products"
     __table_args__ = (
         CheckConstraint("stock >= 0", name="nonnegative_stock"),
@@ -91,7 +91,7 @@ class Product(Timestamp, Base):
     supplier: Mapped[Supplier | None] = relationship(lazy="joined")
 
 
-class Order(Timestamp, Base):
+class Order(DemoMixin, Timestamp, Base):
     __tablename__ = "orders"
     __table_args__ = (
         CheckConstraint("status IN ('Pending','Confirmed','Processing','Completed','Cancelled')", name="status"),
@@ -111,7 +111,7 @@ class Order(Timestamp, Base):
     events: Mapped[list["OrderEvent"]] = relationship(cascade="all, delete-orphan", order_by="OrderEvent.id", lazy="selectin")
 
 
-class OrderItem(Base):
+class OrderItem(DemoMixin, Base):
     __tablename__ = "order_items"
     __table_args__ = (CheckConstraint("quantity > 0 AND unit_price >= 0", name="positive_values"),
                      Index("uq_order_product", "order_id", "product_id", unique=True))
@@ -125,7 +125,7 @@ class OrderItem(Base):
     unit_price: Mapped[int] = mapped_column(Integer)
 
 
-class OrderEvent(Base):
+class OrderEvent(DemoMixin, Base):
     __tablename__ = "order_events"
     id: Mapped[int] = mapped_column(primary_key=True)
     order_id: Mapped[int] = mapped_column(ForeignKey("orders.id"), index=True)
@@ -136,7 +136,7 @@ class OrderEvent(Base):
     user: Mapped[User] = relationship(lazy="joined")
 
 
-class StockMovement(Base):
+class StockMovement(DemoMixin, Base):
     __tablename__ = "stock_movements"
     __table_args__ = (
         CheckConstraint("kind IN ('in','out','adjustment','order','return')", name="kind"),
@@ -155,7 +155,7 @@ class StockMovement(Base):
     user: Mapped[User] = relationship(lazy="joined")
 
 
-class AuditLog(Base):
+class AuditLog(DemoMixin, Base):
     __tablename__ = "audit_logs"
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), index=True)

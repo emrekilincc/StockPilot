@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Boxes, ChartNoAxesCombined, ChevronDown, CircleHelp, House, LayoutGrid, LogOut, Menu, Moon, Package, Settings, ShieldCheck, ShoppingBag, Sun, Truck, Users, X } from 'lucide-react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
+import { useDemoMode } from '../contexts/DemoModeContext'
 import { useToast } from '../contexts/ToastContext'
 import { initials } from '../utils/format'
 import { useResource } from '../hooks/useResource'
@@ -19,6 +20,7 @@ const navigation = [
 
 export default function AppLayout() {
   const { user, logout } = useAuth()
+  const { demoMode, setDemoMode } = useDemoMode()
   const toast = useToast()
   const location = useLocation()
   const [open, setOpen] = useState(false)
@@ -56,7 +58,7 @@ export default function AppLayout() {
       <Link to="/settings" className="workspace-card"><span className="workspace-avatar">{initials(settings?.company_name || 'StockPilot')}</span><span><strong>{settings?.company_name || 'StockPilot'}</strong><small>Çalışma alanı</small></span><ChevronDown size={15} /></Link>
       <span className="nav-caption">ÇALIŞMA ALANI</span>
       <nav>{navigation.filter((item) => !item.admin || user.role === 'admin').map(({ path, label, icon: Icon }) => <NavLink key={path} to={path} end={path === '/'}><Icon size={19} strokeWidth={1.8} /><span>{label}</span></NavLink>)}</nav>
-      <div className="sidebar-bottom"><span className="nav-caption">YÖNETİM</span><nav>
+      <div className="sidebar-bottom"><div className="demo-switch-card"><div><strong>Demo verileri</strong><p>{demoMode ? 'Örnek kullanım açık' : 'Gerçek veriler açık'}</p></div><button type="button" role="switch" aria-checked={demoMode} aria-label="Demo verilerini aç veya kapat" className={`switch ${demoMode ? 'on' : ''}`} onClick={() => setDemoMode(!demoMode)}><span /></button></div><span className="nav-caption">YÖNETİM</span><nav>
         {user.role === 'admin' && <NavLink to="/users"><ShieldCheck size={19} />Kullanıcılar</NavLink>}
         <NavLink to="/settings"><Settings size={19} />Ayarlar</NavLink>
       </nav><div className="local-card"><span className="live-dot" /><div><strong>Verileriniz sizinle.</strong><p>Yerel ve güvenli çalışma alanı</p></div></div>

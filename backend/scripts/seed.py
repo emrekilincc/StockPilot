@@ -38,11 +38,12 @@ PRODUCTS = [
 
 
 def seed(db, admin):
+    db.info["demo_mode"] = True
     if db.get(Setting, "demo_seed_v1"):
         return False
     categories = {}
     for name in dict.fromkeys(p[1] for p in PRODUCTS):
-        category = db.scalar(select(Category).where(Category.name == name))
+        category = db.scalar(select(Category).where(Category.name == name).execution_options(skip_demo_scope=True))
         if category is None:
             category = Category(name=name, description=f"{name} ürün grubu")
             db.add(category)

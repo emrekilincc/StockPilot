@@ -89,3 +89,16 @@ def test_integer_money_and_page_limits(admin):
     body = {"sku": "NO-FLOAT", "name": "Fiyat testi", "category_id": 1, "sale_price": 0.1, "purchase_price": 0}
     assert admin.post("/api/products", json=body).status_code == 422
     assert admin.get("/api/products?page_size=100000").status_code == 422
+
+
+def test_demo_mode_scopes_business_records(env):
+    with logged_client(env["app"]) as real, logged_client(env["app"]) as demo:
+        demo.headers["X-Demo-Mode"] = "true"
+        demo_category = demo.post("/api/categories", json={"name": "Demo kategori"}).json()
+        real_category = real.post("/api/categories", json={"name": "Gerçek kategori"}).json()
+        for client, sku, category_id in ((demo, "DEMO-SCOPE", demo_category["id"]), (real, "REAL-SCOPE", real_category["id"])):
+            response = client.post("/api/products", json={"sku": sku, "name": sku, "category_id": category_id,
+                "sale_price": 1000, "purchase_price": 500, "critical_stock": 3})
+            assert response.status_code == 201, response.text
+        assert demo.get("/api/products").json()["total"] == 1
+        assert real.get("/api/products").json()["total"] == 1

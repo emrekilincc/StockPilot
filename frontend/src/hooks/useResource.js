@@ -6,6 +6,10 @@ export function useResource(path) {
   const [version, setVersion] = useState(0)
   const reload = useCallback(() => setVersion((v) => v + 1), [])
   useEffect(() => {
+    window.addEventListener('demo-mode-changed', reload)
+    return () => window.removeEventListener('demo-mode-changed', reload)
+  }, [reload])
+  useEffect(() => {
     if (!path) { setState({ data: null, loading: false, error: '' }); return }
     const controller = new AbortController()
     setState((old) => ({ ...old, loading: true, error: '' }))

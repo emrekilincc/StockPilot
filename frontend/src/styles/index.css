@@ -64,6 +64,9 @@ svg { flex-shrink: 0; }
 .sidebar nav a.active { background: var(--primary-soft); color: var(--primary); font-weight: 600; }
 .sidebar-bottom { margin-top: auto; padding-top: 30px; }
 .local-card { display: flex; align-items: flex-start; gap: 8px; margin: 22px 0 18px; background: var(--surface-alt); padding: 12px 10px; border-radius: 8px; }
+.demo-switch-card { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0 0 15px; padding: 11px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--primary-soft); }
+.demo-switch-card strong { display: block; font-size: 10px; font-weight: 650; }.demo-switch-card p { color: var(--muted); font-size: 9px; margin-top: 3px; }
+.switch { position: relative; width: 34px; height: 20px; border: 0; border-radius: 11px; background: #b5bac8; padding: 2px; flex-shrink: 0; }.switch span { display: block; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: transform .2s var(--ease); box-shadow: 0 1px 2px #20263822; }.switch.on { background: var(--primary); }.switch.on span { transform: translateX(14px); }
 .local-card strong { font-size: 10px; font-weight: 600; }
 .local-card p { font-size: 9px; color: var(--muted); margin-top: 3px; }
 .live-dot { background: #20b592; width: 6px; height: 6px; border-radius: 50%; box-shadow: 0 0 0 3px #20b59218; display: inline-block; margin-top: 6px; flex-shrink: 0; }

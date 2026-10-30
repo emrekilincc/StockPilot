@@ -12,6 +12,7 @@ from app.models import SessionToken, User
 
 def get_db(request: Request):
     with request.app.state.session_factory() as db:
+        db.info["demo_mode"] = request.headers.get("X-Demo-Mode", "false").lower() == "true"
         try:
             if request.method not in {"GET", "HEAD", "OPTIONS"}:
                 db.connection(execution_options={"sqlite_write": True})

@@ -1,10 +1,13 @@
 let csrfToken = ''
+let demoMode = typeof localStorage === 'undefined' || localStorage.getItem('stockpilot-demo-mode') !== 'false'
 export const setCsrf = (token) => { csrfToken = token || '' }
+export const setDemoMode = (enabled) => { demoMode = Boolean(enabled) }
 
 export async function api(path, { method = 'GET', body, signal } = {}) {
   const headers = {}
   if (body && !(body instanceof FormData)) headers['Content-Type'] = 'application/json'
   if (method !== 'GET') headers['X-CSRF-Token'] = csrfToken
+  headers['X-Demo-Mode'] = String(demoMode)
   let response
   try {
     response = await fetch(`/api${path}`, {
